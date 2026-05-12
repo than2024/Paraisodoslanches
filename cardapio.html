@@ -1,0 +1,728 @@
+# Cardápio Digital
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paraíso dos Lanches</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'DM Sans', sans-serif;
+  background:
+  linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+  url('fundo.jpg') center center/cover no-repeat;
+
+  min-height:100vh;
+  color:white;
+  padding:30px 20px;
+
+  overflow-x:hidden;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:50px;
+}
+
+.header h1{
+  font-size:52px;
+  color:#ffcc00;
+}
+
+.header p{
+  margin-top:10px;
+  opacity:0.8;
+}
+
+/* CATEGORIA */
+
+.categoria{
+  margin-top:80px;
+  margin-bottom:60px;
+}
+
+.titulo-categoria{
+  font-size:32px;
+  color:#ffcc00;
+  margin-bottom:25px;
+  padding-left:15px;
+  border-left:5px solid #ffcc00;
+}
+
+/* AREA COM SCROLL */
+
+.area-cards{
+  display:flex;
+  gap:20px;
+
+  overflow-x:auto;
+  scroll-behavior:smooth;
+
+  padding-bottom:15px;
+}
+
+/* BARRA DE ROLAGEM */
+
+.area-cards::-webkit-scrollbar{
+  height:10px;
+}
+
+.area-cards::-webkit-scrollbar-thumb{
+  background:#ffcc00;
+  border-radius:20px;
+}
+
+/* CARD */
+
+.card{
+  min-width:550px;
+
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+
+  border-radius:24px;
+
+  overflow:hidden;
+
+  backdrop-filter:blur(10px);
+
+  transition:0.3s;
+
+  flex-shrink:0;
+
+  display:flex;
+  align-items:center;
+
+  gap:20px;
+}
+
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+.card img{
+  width:220px;
+  height:100%;
+
+  object-fit:cover;
+}
+
+.card-content{
+  padding:20px;
+  flex:1;
+}
+
+.card h2{
+  margin-bottom:10px;
+}
+
+.card p{
+  opacity:0.85;
+  line-height:1.5;
+}
+
+.price{
+  color:#ffcc00;
+  font-size:24px;
+  margin:18px 0;
+  font-weight:bold;
+}
+
+/* BOTÃO */
+
+.btn{
+  width:100%;
+
+  border:none;
+
+  background:linear-gradient(45deg,#25d366,#18b955);
+
+  color:white;
+
+  padding:15px;
+
+  border-radius:14px;
+
+  font-size:16px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.03);
+}
+
+/* CARRINHO */
+
+.carrinho{
+  margin-top:60px;
+
+  background:rgba(255,255,255,0.05);
+
+  border-radius:25px;
+
+  padding:25px;
+
+  backdrop-filter:blur(10px);
+}
+
+.carrinho h2{
+  margin-bottom:20px;
+}
+
+.item-carrinho{
+  margin-bottom:20px;
+
+  padding-bottom:20px;
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* EXCLUIR */
+
+.btn-excluir{
+  margin-top:15px;
+
+  width:100%;
+
+  border:none;
+
+  background:#ff3b3b;
+
+  color:white;
+
+  padding:12px;
+
+  border-radius:12px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.btn-excluir:hover{
+  background:#d62828;
+}
+
+/* FINALIZAR */
+
+.finalizar{
+  margin-top:25px;
+
+  width:100%;
+
+  background:#ffcc00;
+
+  color:black;
+
+  border:none;
+
+  padding:18px;
+
+  border-radius:16px;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.finalizar:hover{
+  transform:scale(1.02);
+}
+
+</style>
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🍔 Paraíso dos Lanches</h1>
+    <p>Monte seu pedido e envie direto para o WhatsApp</p>
+  </div>
+
+<div class="categoria">
+
+  <h2 class="titulo-categoria">
+    🍔 Hambúrgueres Artesanais
+  </h2>
+
+  <div class="area-cards">
+
+    <!-- CARD 1 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Burguer</h2>
+
+        <p>
+          Pão brioche, hambúrguer artesanal
+          e cheddar.
+        </p>
+
+        <div class="price">
+          R$ 22,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>Hot Dog</h2>
+
+        <p>
+          Salsicha premium, cheddar
+          e batata palha.
+        </p>
+
+        <div class="price">
+          R$ 18,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Salada</h2>
+
+        <p>
+          Hambúrguer artesanal,
+          queijo e salada.
+        </p>
+
+        <div class="price">
+          R$ 24,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+    </div>
+    
+    <!-- CARD 4 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Salada</h2>
+
+        <p>
+          Hambúrguer artesanal,
+          queijo e salada.
+        </p>
+
+        <div class="price">
+          R$ 24,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+<div class="categoria">
+
+  <h2 class="titulo-categoria">
+    🍔 Combos
+  </h2>
+
+  <div class="area-cards">
+
+    <!-- CARD 1 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Burguer</h2>
+
+        <p>
+          Pão brioche, hambúrguer artesanal
+          e cheddar.
+        </p>
+
+        <div class="price">
+          R$ 22,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>Hot Dog</h2>
+
+        <p>
+          Salsicha premium, cheddar
+          e batata palha.
+        </p>
+
+        <div class="price">
+          R$ 18,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Salada</h2>
+
+        <p>
+          Hambúrguer artesanal,
+          queijo e salada.
+        </p>
+
+        <div class="price">
+          R$ 24,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="categoria">
+
+  <h2 class="titulo-categoria">
+    🍔 Outros
+  </h2>
+
+  <div class="area-cards">
+
+    <!-- CARD 1 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Burguer</h2>
+
+        <p>
+          Pão brioche, hambúrguer artesanal
+          e cheddar.
+        </p>
+
+        <div class="price">
+          R$ 22,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>Hot Dog</h2>
+
+        <p>
+          Salsicha premium, cheddar
+          e batata palha.
+        </p>
+
+        <div class="price">
+          R$ 18,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
+
+      <div class="card-content">
+
+        <h2>X-Salada</h2>
+
+        <p>
+          Hambúrguer artesanal,
+          queijo e salada.
+        </p>
+
+        <div class="price">
+          R$ 24,90
+        </div>
+
+        <button class="btn"
+          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
+
+          Adicionar Pedido
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+    
+
+
+<div class="carrinho" id="carrinho">
+
+  <h2>🛒 Seu Pedido</h2>
+
+  <div id="lista-carrinho"></div>
+
+  <button class="finalizar" onclick="enviarWhatsApp()">
+    Finalizar Pedido no WhatsApp
+  </button>
+
+</div>  
+
+<script>
+
+const carrinho = [];
+
+function adicionarCarrinho(nome, preco, botao){
+
+  const card = botao.closest('.card');
+
+  const checks = card.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+
+  let acompanhamentos = [];
+
+  checks.forEach(item => {
+    acompanhamentos.push(item.value);
+  });
+
+  carrinho.push({
+    nome,
+    preco,
+    acompanhamentos
+  });
+
+  atualizarCarrinho();
+
+  // rolar até o carrinho
+  document.getElementById("carrinho")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+// ATUALIZAR CARRINHO
+function atualizarCarrinho(){
+
+  const lista = document.getElementById('lista-carrinho');
+
+  lista.innerHTML = '';
+
+  carrinho.forEach((item, index) => {
+
+    lista.innerHTML += `
+
+      <div class="item-carrinho">
+
+        <strong>${item.nome}</strong><br>
+
+        Acompanhamentos:
+        ${item.acompanhamentos.join(', ') || 'Nenhum'}<br>
+
+        Valor:
+        R$ ${item.preco.toFixed(2)}<br><br>
+
+        <button
+          class="btn-excluir"
+          onclick="removerItem(${index})">
+
+          🗑 Excluir Pedido
+
+        </button>
+
+      </div>
+
+      <hr>
+
+    `;
+  });
+}
+
+
+// REMOVER ITEM
+function removerItem(index){
+
+  carrinho.splice(index, 1);
+
+  atualizarCarrinho();
+
+}
+
+
+
+function enviarWhatsApp(){
+
+  let mensagem = '🍔 *NOVO PEDIDO* %0A%0A';
+
+  let total = 0;
+
+  carrinho.forEach((item, index) => {
+
+    mensagem += `*${index + 1}. ${item.nome}*%0A`;
+
+    mensagem += `Acompanhamentos: ${item.acompanhamentos.join(', ') || 'Nenhum'}%0A`;
+
+    mensagem += `Valor: R$ ${item.preco.toFixed(2)}%0A%0A`;
+
+    total += item.preco;
+  });
+
+  mensagem += `💰 *TOTAL: R$ ${total.toFixed(2)}*`;
+
+
+  const telefone = '71984632867';
+
+  const url = `https://wa.me/${telefone}?text=${mensagem}`;
+
+  window.open(url, '_blank');
+}
+
+</script>
+
+</body>
+</html>
+```
