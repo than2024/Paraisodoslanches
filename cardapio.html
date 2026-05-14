@@ -1,85 +1,459 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paraíso dos Lanches</title>
-
+<title>Cardápio — Paraíso dos Lanches</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #FFD700;
+  --gold-dim: rgba(255, 215, 0, 0.12);
+  --gold-glow: rgba(255, 215, 0, 0.3);
+  --green: #25D366;
+  --red: #EA1D2C;
+  --dark: #0a0a0a;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.08);
+  --text-muted: rgba(255,255,255,0.45);
 }
 
-body{
-  font-family:'DM Sans', sans-serif;
-  background:
-  linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-  url('fundo.jpg') center center/cover no-repeat;
+html { scroll-behavior: smooth; }
 
-  min-height:100vh;
-  color:white;
-  padding:30px 20px;
-
-  overflow-x:hidden;
+body {
+  font-family: 'Manrope', sans-serif;
+  background-color: var(--dark);
+  background-image: url('fundo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: white;
+  overflow-x: hidden;
 }
 
-.container{
-  max-width:1400px;
-  margin:auto;
+/* overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(0,0,0,0.9) 0%, rgba(8,4,0,0.85) 50%, rgba(0,0,0,0.93) 100%);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.header{
-  text-align:center;
-  margin-bottom:50px;
+/* luz dourada top */
+body::after {
+  content: '';
+  position: fixed;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(255,190,0,0.18) 0%, transparent 65%);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.header h1{
-  font-size:52px;
-  color:#ffcc00;
+/* ====== FIXED BUTTONS ====== */
+.btn-voltar, .btn-maps {
+  position: fixed;
+  top: 20px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.18s, opacity 0.18s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+}
+.btn-voltar {
+  left: 20px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,215,0,0.85);
+}
+.btn-maps {
+  right: 20px;
+  background: var(--gold);
+  color: #0a0600;
+  border-color: transparent;
+}
+.btn-voltar:hover, .btn-maps:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-.header p{
-  margin-top:10px;
-  opacity:0.8;
+/* ====== LAYOUT ====== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
 }
 
-/* CATEGORIA */
-
-.categoria{
-  margin-top:80px;
-  margin-bottom:60px;
+/* ====== HEADER ====== */
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+  animation: fadeUp 0.7s ease both;
+}
+.header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 7vw, 4.5rem);
+  color: var(--gold);
+  letter-spacing: 3px;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(255,200,0,0.35);
+}
+.header-sub {
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.header-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 160px;
+  margin: 14px auto 0;
+}
+.header-divider::before, .header-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+}
+.header-divider-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.65;
 }
 
-.titulo-categoria{
-  font-size:32px;
-  color:#ffcc00;
-  margin-bottom:25px;
-  padding-left:15px;
-  border-left:5px solid #ffcc00;
+/* ====== CATEGORIA ====== */
+.categoria {
+  margin-bottom: 56px;
+  animation: fadeUp 0.6s ease both;
+}
+.titulo-categoria {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.titulo-categoria::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,215,0,0.25), transparent);
+  max-width: 200px;
 }
 
-/* AREA COM SCROLL */
+/* ====== SCROLL AREA ====== */
+.area-cards {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 12px;
+  padding-right: 4px;
+}
+.area-cards::-webkit-scrollbar { height: 4px; }
+.area-cards::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 10px; }
+.area-cards::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.4); border-radius: 10px; }
 
+/* ====== CARD ====== */
+.card {
+  min-width: 260px;
+  max-width: 260px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s cubic-bezier(.22,.68,0,1.2), border-color 0.2s;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(255,215,0,0.2);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255,215,0,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+
+.card-img-wrap {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+}
+.card-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.card:hover img { transform: scale(1.06); }
+
+.card-content {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.card h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1.5px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.card p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex: 1;
+}
+.price {
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--gold);
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  margin: 14px 0 14px;
+  text-shadow: 0 0 20px rgba(255,200,0,0.3);
+}
+
+/* ====== ADD BUTTON ====== */
+.btn-add {
+  width: 100%;
+  border: none;
+  background: linear-gradient(135deg, #1e8c3f, var(--green));
+  color: white;
+  padding: 13px;
+  border-radius: 12px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.18s, opacity 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-add::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.15s;
+}
+.btn-add:hover { transform: scale(1.02); }
+.btn-add:hover::after { background: rgba(255,255,255,0.07); }
+.btn-add:active { transform: scale(0.97); }
+.btn-add.added {
+  background: linear-gradient(135deg, #1a6632, #1e8c3f);
+}
+
+/* ====== CARRINHO ====== */
+.carrinho-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 32px auto 0;
+  padding: 0 24px 80px;
+}
+
+.carrinho {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  padding: 26px 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.carrinho-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--card-border);
+}
+.carrinho-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.carrinho-badge {
+  background: var(--gold-dim);
+  border: 1px solid rgba(255,215,0,0.25);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.lista-vazia {
+  text-align: center;
+  padding: 28px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.item-carrinho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.item-carrinho:last-of-type { border-bottom: none; }
+
+.item-info { flex: 1; }
+.item-nome {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 3px;
+}
+.item-acomp {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+.item-preco {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: var(--gold);
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.btn-excluir {
+  background: rgba(234,29,44,0.12);
+  border: 1px solid rgba(234,29,44,0.2);
+  color: #ff7070;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.btn-excluir:hover { background: rgba(234,29,44,0.25); transform: scale(1.08); }
+
+.carrinho-total {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,215,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.carrinho-total-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.carrinho-total-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(255,200,0,0.3);
+}
+
+/* ====== FINALIZAR ====== */
+.btn-finalizar {
+  margin-top: 20px;
+  width: 100%;
+  background: linear-gradient(135deg, #1e8c3f, var(--green));
+  color: white;
+  border: none;
+  padding: 17px;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.18s, opacity 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-finalizar:hover { transform: translateY(-2px); opacity: 0.92; }
+.btn-finalizar:active { transform: scale(0.97); }
+.btn-finalizar:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
 .area-cards{
   display:flex;
   gap:20px;
 
   overflow-x:auto;
+  overflow-y:hidden;
+
   scroll-behavior:smooth;
 
   padding-bottom:15px;
+
+  -webkit-overflow-scrolling: touch;
 }
 
-/* BARRA DE ROLAGEM */
+/* SCROLLBAR */
 
 .area-cards::-webkit-scrollbar{
-  height:10px;
+  height:8px;
 }
 
 .area-cards::-webkit-scrollbar-thumb{
@@ -87,828 +461,285 @@ body{
   border-radius:20px;
 }
 
-/* CARD */
+.area-cards::-webkit-scrollbar-track{
+  background:rgba(255,255,255,0.05);
+}
+
+/* CARD FIXO PARA O SCROLL FUNCIONAR */
 
 .card{
-  min-width:150px;
-
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-
-  border-radius:24px;
-
-  overflow:hidden;
-
-  backdrop-filter:blur(10px);
-
-  transition:0.3s;
+  min-width:320px;
 
   flex-shrink:0;
-
-  display:flex;
-  align-items:center;
-
-  gap:20px;
 }
 
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
+/* ====== ANIMATIONS ====== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.card img{
-  width:220px;
-  height:100%;
-
-  object-fit:cover;
+/* ====== MOBILE ====== */
+@media (max-width: 768px) {
+  .container { padding: 80px 16px 40px; }
+  .header { margin-bottom: 44px; }
+  .btn-voltar, .btn-maps { top: 15px; font-size: 12px; padding: 9px 13px; }
+  .btn-voltar { left: 15px; }
+  .btn-maps { right: 15px; }
+  .card { min-width: 230px; max-width: 230px; }
+  .card-img-wrap { height: 145px; }
+  .carrinho-wrap { padding: 0 16px 60px; }
 }
-
-.card-content{
-  padding:20px;
-  flex:1;
-}
-
-.card h2{
-  margin-bottom:10px;
-}
-
-.card p{
-  opacity:0.85;
-  line-height:1.5;
-}
-
-.price{
-  color:#ffcc00;
-  font-size:24px;
-  margin:18px 0;
-  font-weight:bold;
-}
-
-/* BOTÃO */
-
-.btn{
-  width:100%;
-
-  border:none;
-
-  background:linear-gradient(45deg,#25d366,#18b955);
-
-  color:white;
-
-  padding:15px;
-
-  border-radius:14px;
-
-  font-size:16px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  transition:0.3s;
-}
-
-.btn:hover{
-  transform:scale(1.03);
-}
-
-/* CARRINHO */
-
-.carrinho{
-  margin-top:60px;
-
-  background:rgba(255,255,255,0.05);
-
-  border-radius:25px;
-
-  padding:25px;
-
-  backdrop-filter:blur(10px);
-}
-
-.carrinho h2{
-  margin-bottom:20px;
-}
-
-.item-carrinho{
-  margin-bottom:20px;
-
-  padding-bottom:20px;
-
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-/* EXCLUIR */
-
-.btn-excluir{
-  margin-top:15px;
-
-  width:100%;
-
-  border:none;
-
-  background:#ff3b3b;
-
-  color:white;
-
-  padding:12px;
-
-  border-radius:12px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  transition:0.3s;
-}
-
-.btn-excluir:hover{
-  background:#d62828;
-}
-
-/* FINALIZAR */
-
-.finalizar{
-  margin-top:25px;
-
-  width:100%;
-
-  background:#ffcc00;
-
-  color:black;
-
-  border:none;
-
-  padding:18px;
-
-  border-radius:16px;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  transition:0.3s;
-}
-
-.finalizar:hover{
-  transform:scale(1.02);
-
-
-}
-
-.btn-voltar{
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: #ffffff15;
-  color: rgb(247, 228, 9);
-  padding: 10px 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
-  backdrop-filter: blur(8px);
-  border: 1px solid #ffffff20;
-  transition: 0.3s;
-}
-
-.btn-voltar:hover{
-  background: #ffffff25;
-  transform: translateY(-2px);
-}
-
-@media (max-width:768px){
-
-  body{
-    padding:20px 12px;
-  }
-
-  .header{
-    margin-bottom:35px;
-  }
-
-  .header h1{
-    font-size:34px;
-  }
-
-  .header p{
-    font-size:14px;
-  }
-
-  .categoria{
-    margin-top:45px;
-    margin-bottom:35px;
-  }
-
-  .titulo-categoria{
-    font-size:24px;
-    margin-bottom:18px;
-  }
-
-  .area-cards{
-    gap:14px;
-    padding-bottom:10px;
-  }
-
-  .card{
-    min-width:290px;
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    gap:0;
-  }
-
-  .card img{
-    width:100%;
-    height:180px;
-  }
-
-  .card-content{
-    width:100%;
-    padding:18px;
-  }
-
-  .card h2{
-    font-size:20px;
-  }
-
-  .card p{
-    font-size:14px;
-  }
-
-  .price{
-    font-size:22px;
-  }
-
-  .btn{
-    padding:14px;
-    font-size:15px;
-  }
-
-  .carrinho{
-    margin-top:40px;
-    padding:18px;
-    border-radius:20px;
-  }
-
-  .carrinho h2{
-    font-size:24px;
-  }
-
-  .item-carrinho{
-    font-size:14px;
-  }
-
-  .finalizar{
-    padding:16px;
-    font-size:16px;
-  }
-
-  .btn-excluir{
-    padding:11px;
-    font-size:14px;
-  }
-
-  .btn-voltar{
-    top:15px;
-    left:15px;
-
-    padding:9px 14px;
-
-    font-size:14px;
-
-    border-radius:10px;
-  }
-
-
-}
-.btn-maps{
-  position: fixed;
-
-  top: 20px;
-  right: 20px;
-
-  background: #ffcc00;
-
-  color: black;
-
-  padding: 10px 16px;
-
-  border-radius: 12px;
-
-  text-decoration: none;
-
-  font-family: 'DM Sans', sans-serif;
-
-  font-weight: bold;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-
-  transition: 0.3s;
-
-  z-index: 999;
-}
-
-.btn-maps:hover{
-  transform: translateY(-2px) scale(1.03);
-}
-
-/* MOBILE */
-
-@media (max-width:768px){
-
-  .btn-maps{
-    top: 15px;
-    right: 15px;
-
-    padding: 9px 14px;
-
-    font-size: 14px;
-
-    border-radius: 10px;
-  }
-
-}
-
-</style>
-
-
 </style>
 </head>
 <body>
-<!-- BOTÃO GOOGLE MAPS -->
-<a 
-  href="https://maps.app.goo.gl/QQQcUuCthhZC6zbw7" 
-  target="_blank" 
-  class="btn-maps"
->
-  📍 Localização
-</a>
-<!-- Botão voltar -->
+
+<a href="https://maps.app.goo.gl/QQQcUuCthhZC6zbw7" target="_blank" class="btn-maps">📍 Localização</a>
 <a href="index.html" class="btn-voltar">← Voltar</a>
 
 <div class="container">
 
   <div class="header">
-    <h1>🍔 Paraíso dos Lanches</h1>
-    <p>Monte seu pedido e envie direto para o WhatsApp</p>
+    <h1>Paraíso dos Lanches</h1>
+    <div class="header-divider"><div class="header-divider-dot"></div></div>
+    <p class="header-sub">Monte seu pedido e envie direto pelo WhatsApp</p>
   </div>
 
-<div class="categoria">
+  <!-- HAMBÚRGUERES -->
+  <div class="categoria">
+    <h2 class="titulo-categoria">🍔 Hambúrgueres Artesanais</h2>
+    <div class="area-cards">
 
-  <h2 class="titulo-categoria">
-    🍔 Hambúrgueres Artesanal
-  </h2>
-
-  <div class="area-cards">
-
-    <!-- CARD 1 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Burguer</h2>
-
-        <p>
-          Pão brioche, hambúrguer artesanal
-          e cheddar.
-        </p>
-
-        <div class="price">
-          R$ 22,90
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800" alt="X-Burguer">
         </div>
+        <div class="card-content">
+          <h2>X-Burguer</h2>
+          <p>Pão brioche, hambúrguer artesanal e cheddar.</p>
+          <div class="price">R$ 22,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('X-Burguer', 22.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800" alt="Hot Dog">
+        </div>
+        <div class="card-content">
+          <h2>Hot Dog</h2>
+          <p>Salsicha premium, cheddar e batata palha.</p>
+          <div class="price">R$ 18,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Hot Dog', 18.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-          Adicionar Pedido
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800" alt="X-Salada">
+        </div>
+        <div class="card-content">
+          <h2>X-Salada</h2>
+          <p>Hambúrguer artesanal, queijo e salada fresca.</p>
+          <div class="price">R$ 24,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('X-Salada', 24.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-        </button>
-
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?q=80&w=800" alt="X-Bacon">
+        </div>
+        <div class="card-content">
+          <h2>X-Bacon</h2>
+          <p>Hambúrguer, bacon crocante e cheddar cremoso.</p>
+          <div class="price">R$ 26,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('X-Bacon', 26.90, this)">+ Adicionar</button>
+        </div>
       </div>
 
     </div>
-
-    <!-- CARD 2 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>Hot Dog</h2>
-
-        <p>
-          Salsicha premium, cheddar
-          e batata palha.
-        </p>
-
-        <div class="price">
-          R$ 18,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Salada</h2>
-
-        <p>
-          Hambúrguer artesanal,
-          queijo e salada.
-        </p>
-
-        <div class="price">
-          R$ 24,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-    </div>
-    
-    <!-- CARD 4 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Salada</h2>
-
-        <p>
-          Hambúrguer artesanal,
-          queijo e salada.
-        </p>
-
-        <div class="price">
-          R$ 24,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-    </div>
-
-
   </div>
 
-</div>
+  <!-- COMBOS -->
+  <div class="categoria">
+    <h2 class="titulo-categoria">🎁 Combos</h2>
+    <div class="area-cards">
 
-<div class="categoria">
-
-  <h2 class="titulo-categoria">
-    🍔 Combos
-  </h2>
-
-  <div class="area-cards">
-
-    <!-- CARD 1 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Burguer</h2>
-
-        <p>
-          Pão brioche, hambúrguer artesanal
-          e cheddar.
-        </p>
-
-        <div class="price">
-          R$ 22,90
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800" alt="Combo X-Burguer">
         </div>
+        <div class="card-content">
+          <h2>Combo X-Burguer</h2>
+          <p>X-Burguer + batata frita + refrigerante 350ml.</p>
+          <div class="price">R$ 34,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Combo X-Burguer', 34.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800" alt="Combo Hot Dog">
+        </div>
+        <div class="card-content">
+          <h2>Combo Hot Dog</h2>
+          <p>Hot Dog + batata frita + refrigerante 350ml.</p>
+          <div class="price">R$ 29,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Combo Hot Dog', 29.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-          Adicionar Pedido
-
-        </button>
-
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800" alt="Combo X-Salada">
+        </div>
+        <div class="card-content">
+          <h2>Combo X-Salada</h2>
+          <p>X-Salada + batata frita + suco natural.</p>
+          <div class="price">R$ 36,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Combo X-Salada', 36.90, this)">+ Adicionar</button>
+        </div>
       </div>
 
     </div>
+  </div>
 
-    <!-- CARD 2 -->
-    <div class="card">
+  <!-- OUTROS -->
+  <div class="categoria">
+    <h2 class="titulo-categoria">🍟 Outros</h2>
+    <div class="area-cards">
 
-      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>Hot Dog</h2>
-
-        <p>
-          Salsicha premium, cheddar
-          e batata palha.
-        </p>
-
-        <div class="price">
-          R$ 18,90
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=800" alt="Batata Frita">
         </div>
+        <div class="card-content">
+          <h2>Batata Frita</h2>
+          <p>Porção crocante temperada com sal e ervas.</p>
+          <div class="price">R$ 12,90</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Batata Frita', 12.90, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-        <button class="btn"
-          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1632206-05c1a6a5b5fa?q=80&w=800" alt="Refrigerante">
+        </div>
+        <div class="card-content">
+          <h2>Refrigerante</h2>
+          <p>Lata 350ml. Consulte sabores disponíveis.</p>
+          <div class="price">R$ 6,00</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Refrigerante', 6.00, this)">+ Adicionar</button>
+        </div>
+      </div>
 
-          Adicionar Pedido
-
-        </button>
-
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1594403633-30350a75e91d?q=80&w=800" alt="Água">
+        </div>
+        <div class="card-content">
+          <h2>Água Mineral</h2>
+          <p>Garrafa 500ml, com ou sem gás.</p>
+          <div class="price">R$ 4,00</div>
+          <button class="btn-add" onclick="adicionarCarrinho('Água Mineral', 4.00, this)">+ Adicionar</button>
+        </div>
       </div>
 
     </div>
-
-    <!-- CARD 3 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Salada</h2>
-
-        <p>
-          Hambúrguer artesanal,
-          queijo e salada.
-        </p>
-
-        <div class="price">
-          R$ 24,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-
-    </div>
-
   </div>
 
 </div>
 
-<div class="categoria">
-
-  <h2 class="titulo-categoria">
-    🍔 Outros
-  </h2>
-
-  <div class="area-cards">
-
-    <!-- CARD 1 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Burguer</h2>
-
-        <p>
-          Pão brioche, hambúrguer artesanal
-          e cheddar.
-        </p>
-
-        <div class="price">
-          R$ 22,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Burguer', 22.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-
+<!-- CARRINHO -->
+<div class="carrinho-wrap">
+  <div class="carrinho">
+    <div class="carrinho-header">
+      <h2>🛒 Seu Pedido</h2>
+      <span class="carrinho-badge" id="badge-qtd">0 itens</span>
     </div>
 
-    <!-- CARD 2 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>Hot Dog</h2>
-
-        <p>
-          Salsicha premium, cheddar
-          e batata palha.
-        </p>
-
-        <div class="price">
-          R$ 18,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('Hot Dog', 18.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-
+    <div id="lista-carrinho">
+      <p class="lista-vazia">Seu pedido está vazio.<br>Adicione itens acima ☝️</p>
     </div>
 
-    <!-- CARD 3 -->
-    <div class="card">
-
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000">
-
-      <div class="card-content">
-
-        <h2>X-Salada</h2>
-
-        <p>
-          Hambúrguer artesanal,
-          queijo e salada.
-        </p>
-
-        <div class="price">
-          R$ 24,90
-        </div>
-
-        <button class="btn"
-          onclick="adicionarCarrinho('X-Salada', 24.90, this)">
-
-          Adicionar Pedido
-
-        </button>
-
-      </div>
-
+    <div class="carrinho-total" id="carrinho-total" style="display:none;">
+      <span class="carrinho-total-label">Total</span>
+      <span class="carrinho-total-val" id="total-val">R$ 0,00</span>
     </div>
 
+    <button class="btn-finalizar" id="btn-finalizar" onclick="enviarWhatsApp()" disabled>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Finalizar no WhatsApp
+    </button>
   </div>
-
 </div>
-
-    
-
-
-<div class="carrinho" id="carrinho">
-
-  <h2>🛒 Seu Pedido</h2>
-
-  <div id="lista-carrinho"></div>
-
-  <button class="finalizar" onclick="enviarWhatsApp()">
-    Finalizar Pedido no WhatsApp
-  </button>
-
-</div>  
 
 <script>
-
 const carrinho = [];
 
-function adicionarCarrinho(nome, preco, botao){
-
-  const card = botao.closest('.card');
-
-  const checks = card.querySelectorAll(
-    'input[type="checkbox"]:checked'
-  );
-
-  let acompanhamentos = [];
-
-  checks.forEach(item => {
-    acompanhamentos.push(item.value);
-  });
-
-  carrinho.push({
-    nome,
-    preco,
-    acompanhamentos
-  });
-
+function adicionarCarrinho(nome, preco, botao) {
+  carrinho.push({ nome, preco });
   atualizarCarrinho();
-
-  // rolar até o carrinho
-  document.getElementById("carrinho")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
+  botao.textContent = '✓ Adicionado!';
+  botao.classList.add('added');
+  setTimeout(() => {
+    botao.textContent = '+ Adicionar';
+    botao.classList.remove('added');
+  }, 1400);
+  document.querySelector('.carrinho').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-
-// ATUALIZAR CARRINHO
-function atualizarCarrinho(){
-
-  const lista = document.getElementById('lista-carrinho');
-
-  lista.innerHTML = '';
-
-  carrinho.forEach((item, index) => {
-
-    lista.innerHTML += `
-
-      <div class="item-carrinho">
-
-        <strong>${item.nome}</strong><br>
-
-        Acompanhamentos:
-        ${item.acompanhamentos.join(', ') || 'Nenhum'}<br>
-
-        Valor:
-        R$ ${item.preco.toFixed(2)}<br><br>
-
-        <button
-          class="btn-excluir"
-          onclick="removerItem(${index})">
-
-          🗑 Excluir Pedido
-
-        </button>
-
-      </div>
-
-      <hr>
-
-    `;
-  });
-}
-
-
-// REMOVER ITEM
-function removerItem(index){
-
+function removerItem(index) {
   carrinho.splice(index, 1);
-
   atualizarCarrinho();
-
 }
 
+function atualizarCarrinho() {
+  const lista = document.getElementById('lista-carrinho');
+  const totalWrap = document.getElementById('carrinho-total');
+  const totalVal = document.getElementById('total-val');
+  const badge = document.getElementById('badge-qtd');
+  const btnFinal = document.getElementById('btn-finalizar');
 
+  badge.textContent = carrinho.length + (carrinho.length === 1 ? ' item' : ' itens');
+  btnFinal.disabled = carrinho.length === 0;
 
-function enviarWhatsApp(){
-
-  let mensagem = '🍔 *NOVO PEDIDO* %0A%0A';
+  if (carrinho.length === 0) {
+    lista.innerHTML = '<p class="lista-vazia">Seu pedido está vazio.<br>Adicione itens acima ☝️</p>';
+    totalWrap.style.display = 'none';
+    return;
+  }
 
   let total = 0;
-
-  carrinho.forEach((item, index) => {
-
-    mensagem += `*${index + 1}. ${item.nome}*%0A`;
-
-    mensagem += `Acompanhamentos: ${item.acompanhamentos.join(', ') || 'Nenhum'}%0A`;
-
-    mensagem += `Valor: R$ ${item.preco.toFixed(2)}%0A%0A`;
-
+  lista.innerHTML = '';
+  carrinho.forEach((item, i) => {
     total += item.preco;
+    lista.innerHTML += `
+      <div class="item-carrinho">
+        <div class="item-info">
+          <div class="item-nome">${item.nome}</div>
+        </div>
+        <div class="item-preco">R$ ${item.preco.toFixed(2)}</div>
+        <button class="btn-excluir" onclick="removerItem(${i})" title="Remover">✕</button>
+      </div>
+    `;
   });
 
-  mensagem += `💰 *TOTAL: R$ ${total.toFixed(2)}*`;
-
-
-  const telefone = '71984632867';
-
-  const url = `https://wa.me/${telefone}?text=${mensagem}`;
-
-  window.open(url, '_blank');
+  totalWrap.style.display = 'flex';
+  totalVal.textContent = 'R$ ' + total.toFixed(2);
 }
 
+function enviarWhatsApp() {
+  let msg = '🍔 *NOVO PEDIDO — Paraíso dos Lanches*%0A%0A';
+  let total = 0;
+  carrinho.forEach((item, i) => {
+    msg += `*${i+1}. ${item.nome}* — R$ ${item.preco.toFixed(2)}%0A`;
+    total += item.preco;
+  });
+  msg += `%0A💰 *TOTAL: R$ ${total.toFixed(2)}*`;
+  window.open(`https://wa.me/5571984632867?text=${msg}`, '_blank');
+}
 </script>
-
 </body>
 </html>
-```
