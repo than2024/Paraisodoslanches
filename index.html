@@ -187,6 +187,59 @@
       color: rgba(255,215,0,0.75);
       text-transform: uppercase;
     }
+    .banner-promo{
+  width:90%;
+
+  background:linear-gradient(45deg,rgba(0,0,0,0.75), rgba(0,0,0,0.75));
+
+  color:#f7c009;
+
+  padding:18px 25px;
+
+  border-radius:20px;
+
+  text-align:center;
+
+  font-size:22px;
+
+  font-weight:800;
+
+  margin:25px 0 40px;
+
+  box-shadow:0 8px 25px rgba(255,204,0,0.25);
+
+  animation:pulse 2s infinite;
+}
+
+/* EFEITO */
+
+@keyframes pulse{
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.02);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .banner-promo{
+    font-size:16px;
+
+    padding:15px;
+
+    border-radius:16px;
+  }
+
+}
 
     /* --- LINKS --- */
     .links {
@@ -368,6 +421,10 @@
       <p class="name">Paraíso dos Lanches</p>
 
       <div class="divider"><div class="divider-dot"></div></div>
+      <div class="banner-promo">
+      🍔 HAMBÚRGUERES ARTESANAIS A PARTIR DE R$ 18,99 ✦
+
+      </div>
 
       <p class="bio">Peça, siga ou chame — estamos em todo lugar</p>
     </div>
@@ -376,7 +433,7 @@
     <div class="badges">
       <span class="badge">🍔 Lanches</span>
       <span class="badge">🛵 Delivery</span>
-      <span class="badge">⭐ Salvador, BA, Luso</span>
+      <span class="badge">⭐ Salvador, BA, Plataforma</span>
     </div>
 
     <!-- LINKS -->
