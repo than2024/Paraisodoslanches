@@ -1,4 +1,3 @@
-# Cardápio Digital
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -91,7 +90,7 @@ body{
 /* CARD */
 
 .card{
-  min-width:550px;
+  min-width:150px;
 
   background:rgba(255,255,255,0.06);
   border:1px solid rgba(255,255,255,0.1);
@@ -254,6 +253,135 @@ body{
 
 .finalizar:hover{
   transform:scale(1.02);
+
+
+}
+
+.btn-voltar{
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #ffffff15;
+  color: rgb(247, 228, 9);
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ffffff20;
+  transition: 0.3s;
+}
+
+.btn-voltar:hover{
+  background: #ffffff25;
+  transform: translateY(-2px);
+}
+
+@media (max-width:768px){
+
+  body{
+    padding:20px 12px;
+  }
+
+  .header{
+    margin-bottom:35px;
+  }
+
+  .header h1{
+    font-size:34px;
+  }
+
+  .header p{
+    font-size:14px;
+  }
+
+  .categoria{
+    margin-top:45px;
+    margin-bottom:35px;
+  }
+
+  .titulo-categoria{
+    font-size:24px;
+    margin-bottom:18px;
+  }
+
+  .area-cards{
+    gap:14px;
+    padding-bottom:10px;
+  }
+
+  .card{
+    min-width:290px;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:0;
+  }
+
+  .card img{
+    width:100%;
+    height:180px;
+  }
+
+  .card-content{
+    width:100%;
+    padding:18px;
+  }
+
+  .card h2{
+    font-size:20px;
+  }
+
+  .card p{
+    font-size:14px;
+  }
+
+  .price{
+    font-size:22px;
+  }
+
+  .btn{
+    padding:14px;
+    font-size:15px;
+  }
+
+  .carrinho{
+    margin-top:40px;
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .carrinho h2{
+    font-size:24px;
+  }
+
+  .item-carrinho{
+    font-size:14px;
+  }
+
+  .finalizar{
+    padding:16px;
+    font-size:16px;
+  }
+
+  .btn-excluir{
+    padding:11px;
+    font-size:14px;
+  }
+
+  .btn-voltar{
+    top:15px;
+    left:15px;
+
+    padding:9px 14px;
+
+    font-size:14px;
+
+    border-radius:10px;
+  }
+
 }
 
 </style>
@@ -262,6 +390,8 @@ body{
 </style>
 </head>
 <body>
+<!-- Botão voltar -->
+<a href="index.html" class="btn-voltar">← Voltar</a>
 
 <div class="container">
 
