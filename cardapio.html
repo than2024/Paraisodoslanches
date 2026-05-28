@@ -19,8 +19,6 @@
   --card-bg: rgba(255,255,255,0.04);
   --card-border: rgba(255,255,255,0.08);
   --text-muted: rgba(255,255,255,0.45);
-  /* ⚠️ TROQUE pela URL do seu Cloudflare Worker após o deploy */
-  --worker-url: '';
 }
 
 html { scroll-behavior: smooth; }
@@ -208,8 +206,8 @@ body::after {
 /* ====== BOTÕES DE FINALIZAR ====== */
 .botoes-finalizar { display: flex; gap: 10px; margin-top: 20px; }
 
-.btn-finalizar, .btn-pix {
-  flex: 1;
+.btn-finalizar {
+  width: 100%;
   border: none;
   padding: 17px;
   border-radius: 16px;
@@ -223,186 +221,12 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-.btn-finalizar { background: linear-gradient(135deg, #1e8c3f, var(--green)); color: white; }
-.btn-pix { background: linear-gradient(135deg, #1a3d6e, #1565c0); color: white; position: relative; overflow: hidden; }
-.btn-pix::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,145,122,0.3), rgba(21,101,192,0)); }
-.btn-finalizar:hover, .btn-pix:hover { transform: translateY(-2px); opacity: 0.92; }
-.btn-finalizar:active, .btn-pix:active { transform: scale(0.97); }
-.btn-finalizar:disabled, .btn-pix:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
-
-/* Ícone Pix */
-.pix-icon { width: 20px; height: 20px; fill: white; flex-shrink: 0; }
-
-/* ====== MODAL PIX ====== */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.modal-overlay.ativo { display: flex; }
-
-.modal-pix {
-  background: #111;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
-  padding: 32px 28px;
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  animation: modalIn 0.35s cubic-bezier(.22,.68,0,1.2) both;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.92) translateY(20px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255,255,255,0.08);
-  border: none;
-  color: rgba(255,255,255,0.5);
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, color 0.15s;
-}
-.modal-close:hover { background: rgba(255,255,255,0.15); color: white; }
-
-.modal-titulo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem;
-  letter-spacing: 2px;
-  color: #fff;
-  margin-bottom: 4px;
-}
-.modal-sub { font-size: 12.5px; color: var(--text-muted); margin-bottom: 24px; }
-
-/* Telas do modal */
-.tela { display: none; }
-.tela.ativa { display: block; }
-
-/* Tela: formulário */
-.campo-grupo { margin-bottom: 14px; text-align: left; }
-.campo-grupo label { display: block; font-size: 11.5px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
-.campo-grupo input {
-  width: 100%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 12px 14px;
+  background: linear-gradient(135deg, #1e8c3f, var(--green));
   color: white;
-  font-family: 'Manrope', sans-serif;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.15s;
 }
-.campo-grupo input:focus { border-color: rgba(0,145,122,0.6); }
-.campo-grupo input::placeholder { color: rgba(255,255,255,0.2); }
-
-.resumo-pedido {
-  background: rgba(255,215,0,0.06);
-  border: 1px solid rgba(255,215,0,0.15);
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
-  text-align: left;
-}
-.resumo-total { display: flex; justify-content: space-between; align-items: center; }
-.resumo-total-label { font-size: 12px; color: var(--text-muted); }
-.resumo-total-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--gold); }
-
-.btn-gerar-pix {
-  width: 100%;
-  background: linear-gradient(135deg, #00796b, #00897b);
-  color: white;
-  border: none;
-  padding: 16px;
-  border-radius: 14px;
-  font-family: 'Manrope', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: transform 0.18s, opacity 0.15s;
-}
-.btn-gerar-pix:hover { transform: translateY(-2px); opacity: 0.9; }
-.btn-gerar-pix:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-/* Tela: QR Code */
-.qr-wrap {
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  display: inline-block;
-  margin-bottom: 20px;
-}
-.qr-wrap img { display: block; width: 200px; height: 200px; }
-
-.pix-copia-cola {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: monospace;
-  font-size: 11px;
-  color: rgba(255,255,255,0.5);
-  word-break: break-all;
-  text-align: left;
-  margin-bottom: 12px;
-  max-height: 60px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.pix-copia-cola:hover { border-color: rgba(0,145,122,0.5); }
-.pix-copia-cola::after {
-  content: 'Copiar';
-  position: absolute;
-  bottom: 8px;
-  right: 10px;
-  background: rgba(0,145,122,0.8);
-  color: white;
-  font-family: 'Manrope', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.timer-pix { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
-.timer-pix span { color: var(--gold); font-weight: 700; }
-
-/* Tela: status */
-.status-icon { font-size: 56px; margin-bottom: 16px; animation: pulse 1s ease infinite alternate; }
-@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
-.status-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; margin-bottom: 8px; }
-.status-msg { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-.status-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; }
-.status-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); animation: dot 1.4s ease infinite; }
-.status-dots span:nth-child(2) { animation-delay: 0.2s; }
-.status-dots span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes dot { 0%,80%,100% { opacity: 0.2; } 40% { opacity: 1; background: #00897b; } }
+.btn-finalizar:hover { transform: translateY(-2px); opacity: 0.92; }
+.btn-finalizar:active { transform: scale(0.97); }
+.btn-finalizar:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
 
 /* ====== ANIMATIONS ====== */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -566,93 +390,14 @@ body::after {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         WhatsApp
       </button>
-      <!-- Pix -->
-      <button class="btn-pix" id="btn-pix" onclick="abrirModalPix()" disabled>
-        <svg class="pix-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-          <path d="M126.7 388.8l-83-83a48 48 0 010-67.9l83-83 67.9 67.9a48 48 0 000 67.9zm258.6 0l83-83a48 48 0 000-67.9l-83-83-67.9 67.9a48 48 0 010 67.9zm-67.9-258.6l-61.4-61.4-61.4 61.4 61.4 61.4zm0 251.6l-61.4 61.4-61.4-61.4 61.4-61.4z"/>
-        </svg>
-        Pagar com Pix
-      </button>
+
     </div>
   </div>
 </div>
 
-<!-- ====== MODAL PIX ====== -->
-<div class="modal-overlay" id="modal-pix">
-  <div class="modal-pix">
-    <button class="modal-close" onclick="fecharModal()">✕</button>
-    <div class="modal-titulo">Pagar com Pix</div>
-
-    <!-- TELA 1: Formulário -->
-    <div class="tela ativa" id="tela-form">
-      <p class="modal-sub">Preencha para gerar o QR Code</p>
-      <div class="campo-grupo">
-        <label>Seu nome</label>
-        <input type="text" id="campo-nome" placeholder="João Silva" autocomplete="name">
-      </div>
-      <div class="campo-grupo">
-        <label>CPF (opcional)</label>
-        <input type="text" id="campo-cpf" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCpf(this)">
-      </div>
-      <div class="resumo-pedido">
-        <div class="resumo-total">
-          <span class="resumo-total-label">Total do pedido</span>
-          <span class="resumo-total-val" id="modal-total">R$ 0,00</span>
-        </div>
-      </div>
-      <button class="btn-gerar-pix" id="btn-gerar" onclick="gerarPix()">
-        <svg class="pix-icon" viewBox="0 0 512 512"><path d="M126.7 388.8l-83-83a48 48 0 010-67.9l83-83 67.9 67.9a48 48 0 000 67.9zm258.6 0l83-83a48 48 0 000-67.9l-83-83-67.9 67.9a48 48 0 010 67.9zm-67.9-258.6l-61.4-61.4-61.4 61.4 61.4 61.4zm0 251.6l-61.4 61.4-61.4-61.4 61.4-61.4z"/></svg>
-        Gerar QR Code Pix
-      </button>
-    </div>
-
-    <!-- TELA 2: QR Code -->
-    <div class="tela" id="tela-qr">
-      <p class="modal-sub">Escaneie com o app do seu banco</p>
-      <div class="qr-wrap">
-        <img id="qr-img" src="" alt="QR Code Pix">
-      </div>
-      <p class="timer-pix">Expira em <span id="timer-texto">30:00</span></p>
-      <div class="pix-copia-cola" id="pix-code" onclick="copiarCodigo()"></div>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:16px;">Clique no código acima para copiar</p>
-      <div style="font-size:13px;color:var(--text-muted)">Aguardando pagamento...</div>
-      <div class="status-dots"><span></span><span></span><span></span></div>
-    </div>
-
-    <!-- TELA 3: Aprovado -->
-    <div class="tela" id="tela-aprovado">
-      <div class="status-icon">✅</div>
-      <div class="status-titulo" style="color:#4caf50">Pago com sucesso!</div>
-      <p class="status-msg">Seu pagamento foi confirmado. Preparando seu pedido…</p>
-      <button class="btn-gerar-pix" style="background:linear-gradient(135deg,#1e8c3f,#25D366)" onclick="finalizarAposPix()">
-        Enviar pedido pelo WhatsApp
-      </button>
-    </div>
-
-    <!-- TELA 4: Erro -->
-    <div class="tela" id="tela-erro">
-      <div class="status-icon">❌</div>
-      <div class="status-titulo" style="color:#ef5350">Erro ao gerar Pix</div>
-      <p class="status-msg" id="msg-erro">Tente novamente ou finalize pelo WhatsApp.</p>
-      <button class="btn-gerar-pix" style="background:rgba(255,255,255,0.08);margin-bottom:10px" onclick="voltarForm()">
-        Tentar novamente
-      </button>
-      <button class="btn-gerar-pix" style="background:linear-gradient(135deg,#1e8c3f,#25D366)" onclick="enviarWhatsApp();fecharModal()">
-        Finalizar pelo WhatsApp
-      </button>
-    </div>
-
-  </div>
-</div>
 
 <script>
-// ⚠️ TROQUE pela URL do seu Cloudflare Worker após o deploy
-const WORKER_URL = 'https://SEU-WORKER.SEU-USUARIO.workers.dev';
-
 const carrinho = [];
-let paymentId = null;
-let timerInterval = null;
-let pollingInterval = null;
 
 /* ====== CARRINHO ====== */
 function adicionarCarrinho(nome, preco, botao) {
@@ -679,10 +424,9 @@ function atualizarCarrinho() {
   const totalVal  = document.getElementById('total-val');
   const badge     = document.getElementById('badge-qtd');
   const btnF      = document.getElementById('btn-finalizar');
-  const btnP      = document.getElementById('btn-pix');
 
   badge.textContent = carrinho.length + (carrinho.length === 1 ? ' item' : ' itens');
-  btnF.disabled = btnP.disabled = carrinho.length === 0;
+  btnF.disabled = carrinho.length === 0;
 
   if (carrinho.length === 0) {
     lista.innerHTML = '<p class="lista-vazia">Seu pedido está vazio.<br>Adicione itens acima ☝️</p>';
@@ -718,150 +462,6 @@ function enviarWhatsApp() {
   window.open(`https://wa.me/5571984632867?text=${msg}`, '_blank');
 }
 
-/* ====== MODAL PIX ====== */
-function abrirModalPix() {
-  document.getElementById('modal-total').textContent = 'R$ ' + calcularTotal().toFixed(2);
-  mostrarTela('form');
-  document.getElementById('modal-pix').classList.add('ativo');
-  document.body.style.overflow = 'hidden';
-}
-
-function fecharModal() {
-  document.getElementById('modal-pix').classList.remove('ativo');
-  document.body.style.overflow = '';
-  pararPolling();
-  pararTimer();
-}
-
-function mostrarTela(nome) {
-  ['form','qr','aprovado','erro'].forEach(t => {
-    document.getElementById('tela-' + t).classList.toggle('ativa', t === nome);
-  });
-}
-
-function voltarForm() { mostrarTela('form'); }
-
-/* ====== MÁSCARAS ====== */
-function mascaraCpf(el) {
-  let v = el.value.replace(/\D/g, '').slice(0, 11);
-  if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{3})/, '$1.$2.$3');
-  else if (v.length > 3) v = v.replace(/(\d{3})(\d{3})/, '$1.$2');
-  el.value = v;
-}
-
-/* ====== GERAR PIX ====== */
-async function gerarPix() {
-  const nome = document.getElementById('campo-nome').value.trim() || 'Cliente';
-  const cpf  = document.getElementById('campo-cpf').value.trim();
-  const btn  = document.getElementById('btn-gerar');
-
-  btn.disabled = true;
-  btn.textContent = 'Gerando QR Code…';
-
-  try {
-    const res = await fetch(WORKER_URL + '/criar-pix', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        itens: carrinho,
-        total: calcularTotal(),
-        nome,
-        cpf,
-      }),
-    });
-
-    const dados = await res.json();
-
-    if (!res.ok || dados.erro) throw new Error(dados.erro || 'Erro desconhecido');
-
-    paymentId = dados.id;
-
-    // Exibe QR Code
-    document.getElementById('qr-img').src = 'data:image/png;base64,' + dados.qr_code_base64;
-    document.getElementById('pix-code').textContent = dados.qr_code;
-
-    mostrarTela('qr');
-    iniciarTimer(30 * 60); // 30 min
-    iniciarPolling();
-
-  } catch (err) {
-    document.getElementById('msg-erro').textContent = err.message || 'Não foi possível gerar o Pix.';
-    mostrarTela('erro');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = `<svg class="pix-icon" viewBox="0 0 512 512"><path d="M126.7 388.8l-83-83a48 48 0 010-67.9l83-83 67.9 67.9a48 48 0 000 67.9zm258.6 0l83-83a48 48 0 000-67.9l-83-83-67.9 67.9a48 48 0 010 67.9zm-67.9-258.6l-61.4-61.4-61.4 61.4 61.4 61.4zm0 251.6l-61.4 61.4-61.4-61.4 61.4-61.4z"/></svg> Gerar QR Code Pix`;
-  }
-}
-
-/* ====== COPIAR CÓDIGO ====== */
-function copiarCodigo() {
-  const codigo = document.getElementById('pix-code').textContent;
-  navigator.clipboard.writeText(codigo).then(() => {
-    const el = document.getElementById('pix-code');
-    el.style.borderColor = 'rgba(0,145,122,0.7)';
-    setTimeout(() => { el.style.borderColor = ''; }, 1500);
-  });
-}
-
-/* ====== TIMER ====== */
-function iniciarTimer(segundos) {
-  pararTimer();
-  let restante = segundos;
-  const el = document.getElementById('timer-texto');
-  timerInterval = setInterval(() => {
-    restante--;
-    const m = String(Math.floor(restante / 60)).padStart(2, '0');
-    const s = String(restante % 60).padStart(2, '0');
-    el.textContent = `${m}:${s}`;
-    if (restante <= 0) { pararTimer(); pararPolling(); fecharModal(); }
-  }, 1000);
-}
-
-function pararTimer() {
-  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-}
-
-/* ====== POLLING DE STATUS ====== */
-function iniciarPolling() {
-  pararPolling();
-  pollingInterval = setInterval(verificarPagamento, 5000);
-}
-
-function pararPolling() {
-  if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
-}
-
-async function verificarPagamento() {
-  if (!paymentId) return;
-  try {
-    const res   = await fetch(`${WORKER_URL}/status/${paymentId}`);
-    const dados = await res.json();
-
-    if (dados.status === 'approved') {
-      pararPolling();
-      pararTimer();
-      mostrarTela('aprovado');
-    } else if (dados.status === 'rejected' || dados.status === 'cancelled') {
-      pararPolling();
-      pararTimer();
-      document.getElementById('msg-erro').textContent = 'Pagamento rejeitado ou cancelado. Tente novamente.';
-      mostrarTela('erro');
-    }
-    // 'pending' → continua aguardando
-  } catch (_) { /* ignora erro de rede e tenta na próxima rodada */ }
-}
-
-/* ====== PÓS-PAGAMENTO ====== */
-function finalizarAposPix() {
-  fecharModal();
-  enviarWhatsApp();
-}
-
-/* Fecha modal ao clicar fora */
-document.getElementById('modal-pix').addEventListener('click', function(e) {
-  if (e.target === this) fecharModal();
-});
 </script>
 </body>
 </html>
