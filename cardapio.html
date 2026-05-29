@@ -711,7 +711,7 @@ body::after {
 //  ⚠️  COLE AQUI A URL DO SEU CLOUDFLARE WORKER
 //  Exemplo: https://pix-paraiso.SEU-NOME.workers.dev
 // =====================================================
-const WORKER_URL = 'pix-paraiso.jonathanhora2.workers.dev';
+const WORKER_URL = 'https://pix-paraiso.jonathanhora2.workers.dev';
 
 const carrinho = [];
 let pixGerado = false;
@@ -799,21 +799,47 @@ async function gerarPix(total) {
   setVisible('pix-error', false);
   pixGerado = false;
 
+  // Valida URL do Worker
+  if (!WORKER_URL || WORKER_URL.includes('SEU-WORKER')) {
+    mostrarErro('A URL do Worker não foi configurada. Abra o cardapio.html e substitua WORKER_URL pela URL real do seu Cloudflare Worker.');
+    return;
+  }
+
   // Monta descrição
   const itens = carrinho.map(i => i.nome).join(', ');
   const descricao = `Paraíso dos Lanches: ${itens}`.slice(0, 200);
 
   try {
-    const resp = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ total, descricao }),
-    });
+    let resp;
+    try {
+      resp = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ total, descricao }),
+      });
+    } catch (netErr) {
+      throw new Error('Não foi possível conectar ao servidor de pagamento. Verifique se a URL do Worker está correta. Detalhe: ' + netErr.message);
+    }
 
-    const data = await resp.json();
+    // Lê resposta como texto primeiro para diagnóstico seguro
+    const rawText = await resp.text();
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      throw new Error(
+        `O servidor retornou uma resposta inválida (HTTP ${resp.status}). ` +
+        `Isso geralmente significa que o Worker não está deployado ou a URL está errada. ` +
+        `Resposta recebida: ${rawText.slice(0, 120)}`
+      );
+    }
 
     if (!resp.ok || data.error) {
-      throw new Error(data.error || 'Erro ao gerar PIX');
+      // Monta mensagem de erro detalhada vinda do Worker
+      let msg = data.error || 'Erro desconhecido ao gerar PIX';
+      if (data.mp_message) msg += ` — Mercado Pago: ${data.mp_message}`;
+      if (data.status_http) msg += ` (HTTP ${data.status_http})`;
+      throw new Error(msg);
     }
 
     // Exibe QR Code
@@ -834,13 +860,18 @@ async function gerarPix(total) {
     pixGerado = true;
 
   } catch (err) {
-    const errEl = document.getElementById('pix-error');
-    errEl.textContent = '⚠️ ' + (err.message || 'Não foi possível gerar o PIX. Tente novamente.');
-    setVisible('pix-error', true);
-    setVisible('btn-wpp', true); // Permite enviar mesmo sem PIX
+    mostrarErro(err.message || 'Não foi possível gerar o PIX. Tente novamente.');
   } finally {
     setVisible('pix-loading', false);
   }
+}
+
+function mostrarErro(msg) {
+  const errEl = document.getElementById('pix-error');
+  errEl.innerHTML = '⚠️ ' + msg;
+  setVisible('pix-error', true);
+  setVisible('btn-wpp', true);
+  setVisible('pix-loading', false);
 }
 
 function setVisible(id, show) {
