@@ -19,6 +19,7 @@
   --card-bg: rgba(255,255,255,0.04);
   --card-border: rgba(255,255,255,0.08);
   --text-muted: rgba(255,255,255,0.45);
+  --pix: #32bcad;
 }
 
 html { scroll-behavior: smooth; }
@@ -221,12 +222,252 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #1e8c3f, var(--green));
+  background: linear-gradient(135deg, var(--pix), #28a896);
   color: white;
 }
 .btn-finalizar:hover { transform: translateY(-2px); opacity: 0.92; }
 .btn-finalizar:active { transform: scale(0.97); }
 .btn-finalizar:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+/* ====== PIX MODAL ====== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.active { display: flex; }
+
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp { from { opacity:0; transform: translateY(30px) } to { opacity:1; transform: translateY(0) } }
+
+.modal {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 32px 28px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(.22,.68,0,1.2) both;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px; right: 18px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  border-radius: 8px;
+  width: 32px; height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+.modal-logo-pix {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(50,188,173,0.12);
+  border: 1px solid rgba(50,188,173,0.3);
+  border-radius: 999px;
+  padding: 6px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pix);
+  letter-spacing: 0.06em;
+}
+
+.modal h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.modal-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modal-total {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  text-shadow: 0 0 24px rgba(255,200,0,0.3);
+}
+
+/* QR Code */
+.qr-wrap {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.qr-wrap.visible { display: flex; }
+.qr-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  border: 3px solid rgba(50,188,173,0.35);
+  background: white;
+  padding: 4px;
+}
+
+/* Copia e cola */
+.copiacola-wrap {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.copiacola-wrap.visible { display: flex; }
+.copiacola-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-align: left; }
+.copiacola-box {
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  align-items: center;
+}
+.copiacola-text {
+  flex: 1;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  word-break: break-all;
+  text-align: left;
+  line-height: 1.4;
+  font-family: 'Courier New', monospace;
+  max-height: 60px;
+  overflow-y: auto;
+}
+.btn-copiar {
+  flex-shrink: 0;
+  background: var(--pix);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.btn-copiar:hover { opacity: 0.85; }
+.btn-copiar.copied { background: #1e8c3f; }
+
+/* Status e loading */
+.pix-loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+}
+.pix-loading.visible { display: flex; }
+.spinner {
+  width: 44px; height: 44px;
+  border: 3px solid rgba(50,188,173,0.2);
+  border-top-color: var(--pix);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.pix-loading-txt { font-size: 13px; color: var(--text-muted); }
+
+.pix-error {
+  display: none;
+  background: rgba(234,29,44,0.1);
+  border: 1px solid rgba(234,29,44,0.25);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13px;
+  color: #ff8888;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.pix-error.visible { display: block; }
+
+/* Aguardando pagamento */
+.pix-status {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(50,188,173,0.1);
+  border: 1px solid rgba(50,188,173,0.25);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pix);
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+.pix-status.visible { display: flex; }
+.pulse { width: 8px; height: 8px; background: var(--pix); border-radius: 50%; animation: pulse 1.2s ease infinite; }
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.7); } }
+
+/* Botão WhatsApp pós-pagamento */
+.btn-wpp {
+  display: none;
+  width: 100%;
+  border: none;
+  background: linear-gradient(135deg, #1e8c3f, var(--green));
+  color: white;
+  padding: 16px;
+  border-radius: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  transition: transform 0.18s, opacity 0.15s;
+}
+.btn-wpp.visible { display: flex; }
+.btn-wpp:hover { transform: translateY(-2px); opacity: 0.92; }
+
+/* Instrucoes */
+.pix-instrucoes {
+  display: none;
+  text-align: left;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.9;
+}
+.pix-instrucoes.visible { display: block; }
+.pix-instrucoes strong { color: rgba(255,255,255,0.75); }
 
 /* ====== ANIMATIONS ====== */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -242,6 +483,8 @@ body::after {
   .card-img-wrap { height: 145px; }
   .carrinho-wrap { padding: 0 16px 60px; }
   .botoes-finalizar { flex-direction: column; }
+  .modal { padding: 28px 20px; }
+  .qr-img { width: 170px; height: 170px; }
 }
 </style>
 </head>
@@ -323,7 +566,7 @@ body::after {
         </div>
       </div>
       <div class="card">
-        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800" alt="Combo X-Salada"></div>
+        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1550547660-d9450f858cd?q=80&w=800" alt="Combo X-Salada"></div>
         <div class="card-content">
           <h2>Combo X-Salada</h2>
           <p>X-Salada + batata frita + suco natural.</p>
@@ -385,19 +628,93 @@ body::after {
     </div>
 
     <div class="botoes-finalizar">
-      <!-- WhatsApp -->
-      <button class="btn-finalizar" id="btn-finalizar" onclick="enviarWhatsApp()" disabled>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
+      <!-- Botão PIX (abre modal) -->
+      <button class="btn-finalizar" id="btn-finalizar" onclick="abrirModalPix()" disabled>
+        <svg width="18" height="18" viewBox="0 0 512 512" fill="white">
+          <path d="M392.2 332.8c-15.4 0-30-6-40.9-16.9L281 245.7c-4.9-4.9-13.3-4.9-18.2 0l-70.5 70.3c-10.9 10.9-25.4 16.9-40.9 16.9h-14.2l89.3 89.2c22.7 22.7 59.5 22.7 82.2 0l89.4-89.3h-6z"/>
+          <path d="M151.4 179.2c15.4 0 30 6 40.9 16.9l70.5 70.3c4.9 4.9 13.3 4.9 18.2 0l70.3-70.2c10.9-10.9 25.4-16.9 40.9-16.9h6L308.8 90c-22.7-22.7-59.5-22.7-82.2 0l-89.3 89.2h14.1z"/>
+          <path d="M467 215.2l-43.1-43.1c-.9.3-1.9.5-2.9.5h-28.8c-10.4 0-20.3 4.1-27.7 11.4l-70.3 70.2c-7 7-16.2 10.5-25.5 10.5-9.2 0-18.4-3.5-25.5-10.5l-70.5-70.3c-7.4-7.4-17.3-11.4-27.7-11.4h-33c-1 0-2-.2-2.9-.5L45 215.2c-22.7 22.7-22.7 59.5 0 82.2l43.1 43.1c.9-.3 1.9-.5 2.9-.5h33c10.4 0 20.3-4.1 27.7-11.4l70.5-70.3c13.5-13.5 36.3-13.5 49.8 0l70.3 70.2c7.4 7.4 17.3 11.4 27.7 11.4h28.8c1 0 2 .2 2.9.5L467 297.4c22.6-22.6 22.6-59.5 0-82.2z"/>
+        </svg>
+        Pagar com PIX
       </button>
-
     </div>
   </div>
 </div>
 
+<!-- ====== MODAL PIX ====== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="fecharModal()" title="Fechar">✕</button>
+
+    <div class="modal-logo-pix">
+      <svg width="14" height="14" viewBox="0 0 512 512" fill="currentColor">
+        <path d="M392.2 332.8c-15.4 0-30-6-40.9-16.9L281 245.7c-4.9-4.9-13.3-4.9-18.2 0l-70.5 70.3c-10.9 10.9-25.4 16.9-40.9 16.9h-14.2l89.3 89.2c22.7 22.7 59.5 22.7 82.2 0l89.4-89.3h-6z"/>
+        <path d="M151.4 179.2c15.4 0 30 6 40.9 16.9l70.5 70.3c4.9 4.9 13.3 4.9 18.2 0l70.3-70.2c10.9-10.9 25.4-16.9 40.9-16.9h6L308.8 90c-22.7-22.7-59.5-22.7-82.2 0l-89.3 89.2h14.1z"/>
+        <path d="M467 215.2l-43.1-43.1c-.9.3-1.9.5-2.9.5h-28.8c-10.4 0-20.3 4.1-27.7 11.4l-70.3 70.2c-7 7-16.2 10.5-25.5 10.5-9.2 0-18.4-3.5-25.5-10.5l-70.5-70.3c-7.4-7.4-17.3-11.4-27.7-11.4h-33c-1 0-2-.2-2.9-.5L45 215.2c-22.7 22.7-22.7 59.5 0 82.2l43.1 43.1c.9-.3 1.9-.5 2.9-.5h33c10.4 0 20.3-4.1 27.7-11.4l70.5-70.3c13.5-13.5 36.3-13.5 49.8 0l70.3 70.2c7.4 7.4 17.3 11.4 27.7 11.4h28.8c1 0 2 .2 2.9.5L467 297.4c22.6-22.6 22.6-59.5 0-82.2z"/>
+      </svg>
+      PAGAMENTO VIA PIX
+    </div>
+
+    <h3>Finalize seu pedido</h3>
+    <p class="modal-subtitle">Escaneie o QR Code ou use o código<br>copia e cola no seu banco</p>
+
+    <div class="modal-total" id="modal-total">R$ 0,00</div>
+
+    <!-- Loading -->
+    <div class="pix-loading" id="pix-loading">
+      <div class="spinner"></div>
+      <span class="pix-loading-txt">Gerando seu PIX...</span>
+    </div>
+
+    <!-- Erro -->
+    <div class="pix-error" id="pix-error"></div>
+
+    <!-- QR Code -->
+    <div class="qr-wrap" id="qr-wrap">
+      <img class="qr-img" id="qr-img" src="" alt="QR Code PIX">
+      <div class="pix-status visible" id="pix-status">
+        <div class="pulse"></div>
+        Aguardando pagamento...
+      </div>
+    </div>
+
+    <!-- Copia e Cola -->
+    <div class="copiacola-wrap" id="copiacola-wrap">
+      <span class="copiacola-label">Código PIX copia e cola</span>
+      <div class="copiacola-box">
+        <div class="copiacola-text" id="copiacola-text"></div>
+        <button class="btn-copiar" id="btn-copiar" onclick="copiarPix()">Copiar</button>
+      </div>
+    </div>
+
+    <!-- Instruções -->
+    <div class="pix-instrucoes" id="pix-instrucoes">
+      <strong>Como pagar:</strong><br>
+      1. Abra o app do seu banco<br>
+      2. Escolha pagar com <strong>PIX</strong><br>
+      3. Escaneie o QR Code ou cole o código<br>
+      4. Confirme o pagamento<br>
+      5. Clique em <strong>"Enviar pedido no WhatsApp"</strong>
+    </div>
+
+    <!-- Botão WhatsApp (aparece após PIX gerado) -->
+    <button class="btn-wpp" id="btn-wpp" onclick="enviarWhatsApp()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Enviar pedido no WhatsApp
+    </button>
+
+  </div>
+</div>
 
 <script>
+// =====================================================
+//  ⚠️  COLE AQUI A URL DO SEU CLOUDFLARE WORKER
+//  Exemplo: https://pix-paraiso.SEU-NOME.workers.dev
+// =====================================================
+const WORKER_URL = 'pix-paraiso.jonathanhora2.workers.dev';
+
 const carrinho = [];
+let pixGerado = false;
 
 /* ====== CARRINHO ====== */
 function adicionarCarrinho(nome, preco, botao) {
@@ -419,7 +736,7 @@ function calcularTotal() {
 }
 
 function atualizarCarrinho() {
-  const lista    = document.getElementById('lista-carrinho');
+  const lista     = document.getElementById('lista-carrinho');
   const totalWrap = document.getElementById('carrinho-total');
   const totalVal  = document.getElementById('total-val');
   const badge     = document.getElementById('badge-qtd');
@@ -447,7 +764,114 @@ function atualizarCarrinho() {
   });
 
   totalWrap.style.display = 'flex';
-  totalVal.textContent = 'R$ ' + total.toFixed(2);
+  totalVal.textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+}
+
+/* ====== MODAL PIX ====== */
+function abrirModalPix() {
+  const total = calcularTotal();
+  document.getElementById('modal-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+  document.getElementById('modal-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Gera o PIX automaticamente ao abrir
+  gerarPix(total);
+}
+
+function fecharModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Fecha ao clicar fora do modal
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) fecharModal();
+});
+
+/* ====== GERAR PIX via Worker ====== */
+async function gerarPix(total) {
+  // Reseta estado
+  setVisible('pix-loading', true);
+  setVisible('qr-wrap', false);
+  setVisible('copiacola-wrap', false);
+  setVisible('pix-instrucoes', false);
+  setVisible('btn-wpp', false);
+  setVisible('pix-error', false);
+  pixGerado = false;
+
+  // Monta descrição
+  const itens = carrinho.map(i => i.nome).join(', ');
+  const descricao = `Paraíso dos Lanches: ${itens}`.slice(0, 200);
+
+  try {
+    const resp = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ total, descricao }),
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok || data.error) {
+      throw new Error(data.error || 'Erro ao gerar PIX');
+    }
+
+    // Exibe QR Code
+    const qrImg = document.getElementById('qr-img');
+    if (data.qr_code_base64) {
+      qrImg.src = 'data:image/png;base64,' + data.qr_code_base64;
+      setVisible('qr-wrap', true);
+    }
+
+    // Exibe copia e cola
+    if (data.qr_code) {
+      document.getElementById('copiacola-text').textContent = data.qr_code;
+      setVisible('copiacola-wrap', true);
+    }
+
+    setVisible('pix-instrucoes', true);
+    setVisible('btn-wpp', true);
+    pixGerado = true;
+
+  } catch (err) {
+    const errEl = document.getElementById('pix-error');
+    errEl.textContent = '⚠️ ' + (err.message || 'Não foi possível gerar o PIX. Tente novamente.');
+    setVisible('pix-error', true);
+    setVisible('btn-wpp', true); // Permite enviar mesmo sem PIX
+  } finally {
+    setVisible('pix-loading', false);
+  }
+}
+
+function setVisible(id, show) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (show) el.classList.add('visible');
+  else el.classList.remove('visible');
+}
+
+/* ====== COPIAR PIX ====== */
+function copiarPix() {
+  const codigo = document.getElementById('copiacola-text').textContent;
+  const btn = document.getElementById('btn-copiar');
+  navigator.clipboard.writeText(codigo).then(() => {
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2500);
+  }).catch(() => {
+    // Fallback para dispositivos mais antigos
+    const ta = document.createElement('textarea');
+    ta.value = codigo;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2500);
+  });
 }
 
 /* ====== WHATSAPP ====== */
@@ -455,13 +879,16 @@ function enviarWhatsApp() {
   let msg = '🍔 *NOVO PEDIDO — Paraíso dos Lanches*%0A%0A';
   let total = 0;
   carrinho.forEach((item, i) => {
-    msg += `*${i+1}. ${item.nome}* — R$ ${item.preco.toFixed(2)}%0A`;
+    msg += `*${i+1}. ${item.nome}* — R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
     total += item.preco;
   });
-  msg += `%0A💰 *TOTAL: R$ ${total.toFixed(2)}*`;
+  msg += `%0A💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*`;
+  if (pixGerado) {
+    msg += `%0A%0A✅ *Pagamento via PIX realizado*`;
+  }
   window.open(`https://wa.me/5571984632867?text=${msg}`, '_blank');
+  fecharModal();
 }
-
 </script>
 </body>
 </html>
